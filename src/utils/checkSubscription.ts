@@ -13,7 +13,6 @@ export async function checkSubscription(ctx: Context): Promise<boolean> {
     }
     return status;
   } catch (e) {
-    console.log(e)
     await ctx.reply(`Ошибка проверки подписки. Попробуйте позже.`);
     return false;
   }
