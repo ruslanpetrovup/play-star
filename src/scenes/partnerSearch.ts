@@ -30,7 +30,11 @@ export const partnerSearchScene = new Scenes.WizardScene<any>(
     (ctx.wizard.state as any).datetime = (ctx.message as any)?.text;
     const summary = `Игра: ${(ctx.wizard.state as any).game}\nВозраст: ${(ctx.wizard.state as any).age}\nСкил: ${(ctx.wizard.state as any).skill}\nКогда: ${(ctx.wizard.state as any).datetime}`;
     await ctx.reply(`Спасибо! Данные отправлены администратору.\n${summary}`);
-    await ctx.telegram.sendMessage(process.env.ADMIN_ID as string, `Новая заявка:\n${summary}\nПользователь: @${(ctx.chat.username)}`);
+    const ref = ctx.state?.referralId ? `\nРеферал: ${ctx.state.referralId}` : '';
+    await ctx.telegram.sendMessage(
+      process.env.ADMIN_ID as string,
+      `Новая заявка:\n${summary}\nПользователь: @${ctx.chat.username}${ref}`
+    );
     return ctx.scene.leave();
   }
 );
