@@ -31,3 +31,19 @@
 - `referralId` – код реферала.
 
 В файле `.env` необходимо указать `DATABASE_URL` со строкой подключения к БД.
+
+### Docker Compose
+Для локального запуска PostgreSQL можно использовать `docker-compose`.
+Запустите контейнер командой:
+
+```bash
+docker-compose up -d
+```
+
+После запуска используйте строку подключения:
+
+```
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/playstar
+```
+
+
