@@ -1,5 +1,6 @@
 import { Telegraf, Context, Scenes, session } from 'telegraf';
 import dotenv from 'dotenv';
+import { pool } from './db';
 import { startHandler } from './handlers/start';
 import { menuHandler } from './handlers/menu';
 import { partnerSearchScene } from './scenes/partnerSearch';
@@ -29,5 +30,11 @@ bot.hears("Правила использования", (ctx) => ctx.reply(requir
 
 bot.launch().then(() => console.log('Bot started'));
 
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+process.once('SIGINT', () => {
+  pool.end();
+  bot.stop('SIGINT');
+});
+process.once('SIGTERM', () => {
+  pool.end();
+  bot.stop('SIGTERM');
+});
