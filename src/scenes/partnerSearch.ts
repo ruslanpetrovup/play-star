@@ -1,5 +1,6 @@
 import { Scenes, Markup } from 'telegraf';
 import { checkSubscription } from '../utils/checkSubscription';
+import { getArbitratorByReferralId } from '../db';
 
 export const partnerSearchScene = new Scenes.WizardScene<any>(
   'partnerSearch',
@@ -30,7 +31,13 @@ export const partnerSearchScene = new Scenes.WizardScene<any>(
     (ctx.wizard.state as any).datetime = (ctx.message as any)?.text;
     const summary = `Игра: ${(ctx.wizard.state as any).game}\nВозраст: ${(ctx.wizard.state as any).age}\nСкил: ${(ctx.wizard.state as any).skill}\nКогда: ${(ctx.wizard.state as any).datetime}`;
     await ctx.reply(`Спасибо! Данные отправлены администратору.\n${summary}`);
-    const ref = ctx.session?.referralId ? `\nРеферал: ${ctx.session.referralId}` : '';
+    let ref = '';
+    if (ctx.session?.referralId) {
+      const arbitrator = await getArbitratorByReferralId(ctx.session.referralId);
+      if (arbitrator) {
+        ref = `\nРеферал: @${arbitrator.username}`;
+      }
+    }
     await ctx.telegram.sendMessage(
       process.env.ADMIN_ID as string,
       `Новая заявка:\n${summary}\nПользователь: @${ctx.chat.username}${ref}`
