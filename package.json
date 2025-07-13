@@ -1,7 +1,6 @@
 {
   "name": "play-star",
   "version": "1.0.0",
-  "description": "задача создать телеграм бота используй библиотеку telegraf она думаю будет самое то",
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/bot.ts",
